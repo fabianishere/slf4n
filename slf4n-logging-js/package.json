@@ -1,11 +1,20 @@
 {
 	"name": "slf4n-logging-js",
-	"description": "SLF4N binding for logging.js",
+	"description": "SLF4N binding for logging.js.",
 	"version": "0.1.0",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
-	"maintainers": [
-		"Fabian M. <mail.fabianm@gmail.com>"
-	],
+	"homepage": "https://github.com/fabianm/slf4n",
+	"main": "lib/slf4n-logging-js",
+	"bugs": "https://github.com/fabianm/slf4n/issues",
+	"dependencies": {
+		"slf4n": "^0.1.0",
+		"logging": "^2.0.2"
+	},
+	"maintainers": [{
+		"name": "Fabian M.",
+		"email": "mail.fabianm@gmail.com",
+		"web": "https://github.com/fabianm"
+	}],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/fabianm/slf4n.git"
@@ -17,12 +26,10 @@
 		"logger",
 		"slf4n",
 		"slf4j",
-		"logging-js"
+		"winston"
 	],
-	"depencies": {
-		"slf4n": "^0.1.0",
-		"logging-js": "^2.0.2"
-	},
-	"license" : "MIT",
-	"main": "./slf4n-logging-js/slf4n-logging-js"
+	"licenses": [{ 
+		"type": "MIT",
+		"url": "https://github.com/fabianm/slf4n/blob/master/LICENSE"
+	}]
 }
