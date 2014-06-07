@@ -1,7 +1,7 @@
 {
-	"name": "slf4n-winston",
-	"description": "SLF4N binding for Winston.",
-	"version": "0.1.1",
+	"name": "slf4n-logging-js",
+	"description": "SLF4N binding for logging.js",
+	"version": "0.1.0",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"maintainers": [
 		"Fabian M. <mail.fabianm@gmail.com>"
@@ -17,12 +17,12 @@
 		"logger",
 		"slf4n",
 		"slf4j",
-		"winston"
+		"logging-js"
 	],
 	"depencies": {
 		"slf4n": "^0.1.0",
-		"winston": "^0.7.3"
+		"logging-js": "^2.0.2"
 	},
 	"license" : "MIT",
-	"main": "./slf4n-winston/slf4n-winston"
+	"main": "./slf4n-logging-js/slf4n-logging-js"
 }

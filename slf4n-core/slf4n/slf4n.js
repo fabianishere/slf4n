@@ -42,18 +42,20 @@ slf4n.cache = {};
 slf4n.factory = null;
 
 /*
- * Return a {@link slf4n.Logger} instance for the given module.
+ * Return a {@link slf4n.Logger} implementation for the given module.
  *
- * @param module The module to get the {@link slf4n.Logger} instance for.
+ * @param module The module to get the {@link slf4n.Logger} implementation for.
  */
 slf4n.get = function(module) {
+	if (slf4n.factory == null)
+		initialise();
 	if (slf4n.cache.hasOwnProperty && slf4n.cache.hasOwnProperty(module))
 		return cache[module];
 	return slf4n.cache[module] = slf4n.factory.getLogger(module);
 };
 
 /*
- * Formats the given message with the given arguments.
+ * Format the given message with the given arguments.
  *
  * @param message The message to format.
  * @param varargs The arguments.
@@ -231,6 +233,4 @@ function initialise() {
 	console.error("SLF4N: See https://github.com/FabianM/slf4n for further details.");
 	slf4n.factory = new slf4n.LoggerFactory();
 }
-
-initialise();
 module.exports = slf4n;
