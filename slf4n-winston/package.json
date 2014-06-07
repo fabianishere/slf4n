@@ -1,6 +1,6 @@
 {
 	"name": "slf4n-winston",
-	"description": "SLF4N binding for Winston.",
+	"description": "SLF4N binding for winston.",
 	"version": "0.1.1",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"homepage": "https://github.com/fabianm/slf4n",
