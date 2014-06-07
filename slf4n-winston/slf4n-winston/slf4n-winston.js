@@ -25,7 +25,7 @@ var winston = require("winston");
 var slf4n = require("slf4n");
 
 /*
- * SLF4N implementation using Winston as backend.
+ * SLF4N binding for Winston.
  */
 function slf4nWinston() {
 	return this;

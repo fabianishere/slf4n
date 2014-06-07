@@ -1,6 +1,6 @@
 {
 	"name": "slf4n-winston",
-	"description": "SLF4N implementation using Winston as backend.",
+	"description": "SLF4N binding for Winston.",
 	"version": "0.1.0",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"maintainers": [
