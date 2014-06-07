@@ -1,0 +1,23 @@
+{
+	"name": "slf4n",
+	"description": "Simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.",
+	"version": "0.1.0",
+	"author": "Fabian M. <mail.fabianm@gmail.com>",
+	"maintainers": [
+		"Fabian M. <mail.fabianm@gmail.com>"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fabianm/slf4n.git"
+	},
+	"keywords": [
+		"logging",
+		"sysadmin",
+		"tools",
+		"logger",
+		"slf4n",
+		"slf4j"
+	],
+	"license" : "MIT",
+	"main": "./slf4n/slf4n"
+}

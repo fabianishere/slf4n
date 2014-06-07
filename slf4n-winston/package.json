@@ -1,0 +1,28 @@
+{
+	"name": "slf4n-winston",
+	"description": "SLF4N implementation using Winston as backend.",
+	"version": "0.1.0",
+	"author": "Fabian M. <mail.fabianm@gmail.com>",
+	"maintainers": [
+		"Fabian M. <mail.fabianm@gmail.com>"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fabianm/slf4n.git"
+	},
+	"keywords": [
+		"logging",
+		"sysadmin",
+		"tools",
+		"logger",
+		"slf4n",
+		"slf4j",
+		"winston"
+	],
+	"depencies": {
+		"slf4n": "0.1.0",
+		"winston": "0.7.3"
+	},
+	"license" : "MIT",
+	"main": "./slf4n-winston/slf4n-winston"
+}
