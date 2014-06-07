@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+var fs = null, path = null;
 
 /*
  * Simple logging facade for NodeJS allowing the end user to choose the desired 
@@ -69,8 +70,11 @@ slf4n.format = function(message, varargs) {
 };
 
 /*
- * The {@link slf4n.LoggerFactory} is an abstract logging factory for a {@link slf4n.Logger}
- * 	instance.
+ * The {@link slf4n.LoggerFactory} is an abstract logging factory for a 
+ *	{@link slf4n.Logger} instance.
+ *
+ * SLF4N bindings should be simple Node modules returning a 
+ *	{@link slf4n.LoggerFactory#getLogger(module)} function.
  */
 slf4n.LoggerFactory = function() {
 	return this;
@@ -169,10 +173,62 @@ slf4n.Logger.prototype.warn = function(message) {};
 slf4n.Logger.prototype.isWarnEnabled = function() { return false; };
 
 /*
+ * Find the package.json file that belongs to the given module.
+ *
+ * @param module The module to find the package.json file for.
+ */
+function findConfiguration(module, dir) {
+	dir = dir || path.dirname(module.filename);
+  
+	var files = fs.readdirSync(dir);
+  
+	if (~files.indexOf('package.json')) 
+		return require(path.join(dir, 'package.json'));
+	if (dir === '/' || !dir || dir === '.')
+		return null;  
+	return findConfiguration(module, path.dirname(dir));
+}
+
+/*
+ * Load a binding by package name.
+ *
+ * @param name The name of the binding to load.
+ */
+function loadBinding(name) {
+	try {
+		slf4n.factory = require(name);
+	} catch(e) {
+		console.error("SLF4N: Failed to load binding \"" + name + "\":");
+		console.trace(e);
+		console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
+		console.error("SLF4N: See https://github.com/FabianM/slf4n for further details.");
+		slf4n.factory = new slf4n.LoggerFactory();
+	}
+}
+ 
+/*
  * Initialise this simple logging facade.
  */
 function initialise() {
-	// TODO find a way to resolve the factory automatically.
+	if (process.env.hasOwnProperty("SLF4N_BINDING")) {
+		loadBinding(process.env["SLF4N_BINDING"]);
+		return;
+	}
+	
+	fs = fs || require("fs");
+	path = path || require("path");
+	
+	var configuration = findConfiguration(require.main);
+	if (configuration != null) {
+		if (configuration.hasOwnProperty("slf4n-binding")) {
+			loadBinding(configuration["slf4n-binding"]);
+			return;
+		}
+	}
+ 
+	console.error("SLF4N: Failed to determine binding.");
+	console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
+	console.error("SLF4N: See https://github.com/FabianM/slf4n for further details.");
 	slf4n.factory = new slf4n.LoggerFactory();
 }
 
