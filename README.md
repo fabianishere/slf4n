@@ -14,4 +14,4 @@ To install SLF4N, just run the following command in the terminal:
 $ npm install --save slf4n
 ```
 ## License
-This project is licensed under the MIT License. More information can be found in `LICENSE`.
+This project is licensed under the MIT license. More information can be found in `LICENSE`.
