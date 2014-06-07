@@ -130,7 +130,7 @@ slf4nWinston.Logger.prototype.isInfoEnabled = function() {
 slf4nWinston.Logger.prototype.trace = function(message) {
 	if (!this.isTraceEnabled())
 		return;
-	winston.error(slf4n.format(message, arguments));
+	winston.silly(slf4n.format(message, arguments));
 };
 
 /*
@@ -140,7 +140,7 @@ slf4nWinston.Logger.prototype.trace = function(message) {
  *	otherwise.
  */
 slf4nWinston.Logger.prototype.isTraceEnabled = function() { 
-	return winston.level >= winston.config.npm.levels.error;
+	return winston.level >= winston.config.npm.levels.silly;
 };
 
 /*
