@@ -8,7 +8,7 @@
 	"bugs": "https://github.com/fabianm/slf4n/issues",
 	"dependencies": {
 		"slf4n": "^0.1.0",
-		"logging": "^2.0.2"
+		"logging": "^2.1.0"
 	},
 	"maintainers": [{
 		"name": "Fabian M.",
