@@ -1,7 +1,7 @@
 {
 	"name": "slf4n-logging-js",
 	"description": "SLF4N binding for logging.js.",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"homepage": "https://github.com/fabianm/slf4n",
 	"main": "lib/slf4n-logging-js",

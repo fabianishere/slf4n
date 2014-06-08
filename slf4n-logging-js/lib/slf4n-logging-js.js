@@ -51,7 +51,7 @@ Logger.prototype.debug = function(message) {
  *	otherwise.
  */
 Logger.prototype.isDebugEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.CONFIG.value;
+	return this.logger.level.value <= this.logger.levels.CONFIG.value;
 };
 
 /*
@@ -72,7 +72,7 @@ Logger.prototype.error = function(message) {
  *	otherwise.
  */
 Logger.prototype.isErrorEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.SEVERE.value;
+	return this.logger.level.value <= this.logger.levels.SEVERE.value;
 };
 
 /*
@@ -93,7 +93,7 @@ Logger.prototype.info = function(message) {
  *	otherwise.
  */
 Logger.prototype.isInfoEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.INFO.value;
+	return this.logger.level.value <= this.logger.levels.INFO.value;
 };
 
 /*
@@ -114,7 +114,7 @@ Logger.prototype.trace = function(message) {
  *	otherwise.
  */
 Logger.prototype.isTraceEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.FINE.value;
+	return this.logger.level.value <= this.logger.levels.FINE.value;
 };
 
 /*
@@ -135,7 +135,7 @@ Logger.prototype.warn = function(message) {
  *	otherwise.
  */
 Logger.prototype.isWarnEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.WARNING.value;
+	return this.logger.level.value <= this.logger.levels.WARNING.value;
 };
 
 /*
