@@ -4,11 +4,11 @@
 	"version": "0.1.4",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"homepage": "https://github.com/fabianm/slf4n",
-	"main": "lib/slf4n-logging-js",
+	"main": "lib/slf4n-logging",
 	"bugs": "https://github.com/fabianm/slf4n/issues",
 	"dependencies": {
 		"slf4n": "^0.1.1",
-		"logging-js": "^2.1.0"
+		"logging-js": "^2.1.1"
 	},
 	"maintainers": [{
 		"name": "Fabian M.",
