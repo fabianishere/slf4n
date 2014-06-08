@@ -154,7 +154,7 @@ Logger.prototype.isWarnEnabled = function() {
  *
  * @param module The module to get the {@link slf4n.Logger} implementation for.
  */
-module.exports = function(module) {
+module.exports.getLogger = function(module) {
 	return new Logger(module);
 };
 module.exports.getWinstonLogger = getWinstonLogger;
