@@ -7,7 +7,7 @@
 	"main": "lib/slf4n-winston",
 	"bugs": "https://github.com/fabianm/slf4n/issues",
 	"dependencies": {
-		"slf4n": "^0.1.0",
+		"slf4n": "^0.1.1",
 		"winston": "^0.7.3"
 	},
 	"maintainers": [{

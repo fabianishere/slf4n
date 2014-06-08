@@ -1,13 +1,13 @@
 {
 	"name": "slf4n-logging-js",
 	"description": "SLF4N binding for logging.js.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "Fabian M. <mail.fabianm@gmail.com>",
 	"homepage": "https://github.com/fabianm/slf4n",
 	"main": "lib/slf4n-logging-js",
 	"bugs": "https://github.com/fabianm/slf4n/issues",
 	"dependencies": {
-		"slf4n": "^0.1.0",
+		"slf4n": "^0.1.1",
 		"logging-js": "^2.1.0"
 	},
 	"maintainers": [{
