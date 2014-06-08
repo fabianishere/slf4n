@@ -51,7 +51,7 @@ Logger.prototype.debug = function(message) {
  *	otherwise.
  */
 Logger.prototype.isDebugEnabled = function() { 
-	return this.logger.level.value >= this.logger.levels.DEBUG.value;
+	return this.logger.level.value >= this.logger.levels.CONFIG.value;
 };
 
 /*
