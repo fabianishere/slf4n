@@ -198,8 +198,10 @@ function findConfiguration(module, dir) {
  */
 function loadBinding(name) {
 	try {
+		module.paths = require.main.paths.concat(module.paths);
 		slf4n.factory = require(name);
 	} catch(e) {
+		console.log(module);
 		console.error("SLF4N: Failed to load binding \"" + name + "\":");
 		console.trace(e);
 		console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
