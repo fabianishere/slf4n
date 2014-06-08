@@ -34,6 +34,25 @@ function Logger(module) {
 };
 
 /*
+ * Log the given message with the given level.
+ * 
+ * @param level The level to log this message with.
+ * @param message The message to log.
+ * @param varargs The arguments of the message.
+ */
+Logger.prototype.log = function(level, message, varargs) {
+	var record = new logging.Record(level, message);
+	record.loggerName = this.logger.name;
+	record.parameters = varargs;
+	if (message instanceof Error) {
+		record.message = null;
+		record.thrown = message;
+	}
+	record.inferCaller(inferCaller);
+	this.logger.logr(record);
+};
+
+/*
  * Log a message at the DEBUG level.
  * 
  * @param message The message to log at the DEBUG level.
@@ -41,7 +60,8 @@ function Logger(module) {
 Logger.prototype.debug = function(message) {
 	if (!this.isDebugEnabled())
 		return;
-	this.logger.debug(slf4n.format(message, arguments));
+	this.log(this.logger.levels.CONFIG, message,
+		Array.prototype.slice.call(record.parameters).slice(2));
 };
 
 /*
@@ -62,7 +82,8 @@ Logger.prototype.isDebugEnabled = function() {
 Logger.prototype.error = function(message) {
 	if (!this.isErrorEnabled())
 		return;
-	this.logger.severe(slf4n.format(message, arguments));
+	this.log(this.logger.levels.SEVERE, message,
+			Array.prototype.slice.call(arguments).slice(2));
 };
 
 /*
@@ -83,7 +104,8 @@ Logger.prototype.isErrorEnabled = function() {
 Logger.prototype.info = function(message) {
 	if (!this.isInfoEnabled())
 		return;
-	this.logger.info(slf4n.format(message, arguments));
+	this.log(this.logger.levels.INFO, message,
+			Array.prototype.slice.call(arguments).slice(2));
 };
 
 /*
@@ -104,7 +126,8 @@ Logger.prototype.isInfoEnabled = function() {
 Logger.prototype.trace = function(message) {
 	if (!this.isTraceEnabled())
 		return;
-	this.logger.fine(slf4n.format(message, arguments));
+	this.log(this.logger.levels.FINE, message,
+			Array.prototype.slice.call(arguments).slice(2));
 };
 
 /*
@@ -125,7 +148,8 @@ Logger.prototype.isTraceEnabled = function() {
 Logger.prototype.warn = function(message) {
 	if (!this.isWarnEnabled())
 		return;
-	this.logger.warning(slf4n.format(message, arguments));
+	this.log(this.logger.levels.WARNING, message,
+			Array.prototype.slice.call(arguments).slice(2));
 };
 
 /*
@@ -137,6 +161,17 @@ Logger.prototype.warn = function(message) {
 Logger.prototype.isWarnEnabled = function() { 
 	return this.logger.level.value <= this.logger.levels.WARNING.value;
 };
+
+/*
+ * Infer the caller's module and method name.
+ * 
+ * @return The found stackframr that contains the module and method name.
+ */
+function inferCaller(stack) {
+	for (var index = stack.length; index > 0; index--)
+		if (stack[index - 1].getFileName() == __filename)
+			return stack[index];
+}
 
 /*
  * Return a {@link slf4n.Logger} implementation for the given module.
