@@ -203,7 +203,7 @@ function loadBinding(name) {
 		console.error("SLF4N: Failed to load binding \"" + name + "\":");
 		console.trace(e);
 		console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
-		console.error("SLF4N: See https://github.com/FabianM/slf4n for further details.");
+		console.error("SLF4N: See https://github.com/fabianm/slf4n for further details.");
 		slf4n.factory = new slf4n.LoggerFactory();
 	}
 }
@@ -230,7 +230,7 @@ function initialise() {
  
 	console.error("SLF4N: Failed to determine binding.");
 	console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
-	console.error("SLF4N: See https://github.com/FabianM/slf4n for further details.");
+	console.error("SLF4N: See https://github.com/fabianm/slf4n for further details.");
 	slf4n.factory = new slf4n.LoggerFactory();
 }
 module.exports = slf4n;
