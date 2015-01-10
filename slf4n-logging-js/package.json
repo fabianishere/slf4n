@@ -26,7 +26,8 @@
 		"logger",
 		"slf4n",
 		"slf4j",
-		"winston"
+		"logging.js",
+		"logging-js"
 	],
 	"licenses": [{ 
 		"type": "MIT",
