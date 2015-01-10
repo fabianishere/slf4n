@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  * 
- * Copyright (c) 2014 Fabian M. <mail.fabianm@gmail.com>
+ * Copyright (c) 2015 Fabian M. <mail.fabianm@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,55 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-var fs = null, path = null;
 
 /*
  * Simple logging facade for NodeJS allowing the end user to choose the desired 
  *	logging framework at deployment time.
+ *
+ * @author Fabian M. <mail.fabianm@gmail.com>
  */
 function slf4n() {
 	return this;
 }
 
 /*
- * Cache containing created {@link slf4n.Logger} instances.
- */
-slf4n.cache = {};
-
-/*
- * The {@link slf4n.LoggerFactory} slf4n uses.
+ * The global {@link slf4n.LoggerFactory} instance slf4n uses.
  */
 slf4n.factory = null;
-
-/*
- * Return a {@link slf4n.Logger} implementation for the given module.
- *
- * @param module The module to get the {@link slf4n.Logger} implementation for.
- */
-slf4n.get = function(module) {
-	if (slf4n.factory == null)
-		initialise();
-	if (slf4n.cache.hasOwnProperty && slf4n.cache.hasOwnProperty(module))
-		return cache[module];
-	return slf4n.cache[module] = slf4n.factory.getLogger(module);
-};
-
-/*
- * Format the given message with the given arguments.
- *
- * @param message The message to format.
- * @param varargs The arguments.
- * @return The formatted message.
- */
-slf4n.format = function(message, varargs) {
-	if (!(typeof message == 'string' || message instanceof String))
-		return message;
-	var args = Array.prototype.slice.call(varargs).slice(2);
-	message = message.replace(/{(\d+)}/g, function(match, number) {
-		return typeof args[number] != 'undefined' ? args[number] : match;
-	});
-	return message;
-};
 
 /*
  * The {@link slf4n.LoggerFactory} is an abstract logging factory for a 
@@ -79,6 +45,7 @@ slf4n.format = function(message, varargs) {
  *	{@link slf4n.LoggerFactory#getLogger(module)} function.
  */
 slf4n.LoggerFactory = function() {
+	this.cache = {};
 	return this;
 };
 
@@ -88,14 +55,19 @@ slf4n.LoggerFactory = function() {
  * @param module The module to get the {@link slf4n.Logger} instance for.
  */
 slf4n.LoggerFactory.prototype.getLogger = function(module) {
-	return new slf4n.Logger();
+	if (this.cache.hasOwnProperty && this.cache.hasOwnProperty(module))
+		return this.cache[module];
+	return this.cache[module] = new slf4n.Logger(module);
 };
 
 /*
  * The {@link slf4n.Logger} class is a logging interface which should be provided by
  *	the logging implementation.
+ *
+ * @param module The module of this {@link slf4n.Logger} instance.
  */
-slf4n.Logger = function() {
+slf4n.Logger = function(module) {
+	this.module = module;
 	return this;
 };
 
@@ -175,64 +147,93 @@ slf4n.Logger.prototype.warn = function(message) {};
 slf4n.Logger.prototype.isWarnEnabled = function() { return false; };
 
 /*
- * Find the package.json file that belongs to the given module.
+ * Format the given message with the given arguments.
  *
- * @param module The module to find the package.json file for.
+ * @param message The message to format.
+ * @param varargs The arguments.
+ * @return The formatted message.
  */
-function findConfiguration(module, dir) {
-	dir = dir || path.dirname(module.filename);
-  
-	var files = fs.readdirSync(dir);
-  
-	if (~files.indexOf('package.json')) 
-		return require(path.join(dir, 'package.json'));
-	if (dir === '/' || !dir || dir === '.')
-		return null;  
-	return findConfiguration(module, path.dirname(dir));
-}
+slf4n.format = function(message, varargs) {
+	/* 
+	 * Created by user fearphage from Stackoverflow.com 
+	 * https://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436 
+	 */
+	if (!(typeof message == 'string' || message instanceof String))
+		return message;
+	var args = Array.prototype.slice.call(varargs).slice(2);
+	message = message.replace(/{(\d+)}/g, function(match, number) {
+		return typeof args[number] != 'undefined' ? args[number] : match;
+	});
+	return message;
+};
 
 /*
- * Load a binding by package name.
+ * Resolve the user-defined {@link slf4n.LoggerFactory} instance for the NodeJS
+ *	platform.
  *
- * @param name The name of the binding to load.
+ * @throws An excpetion when failed to resolve the binding.
  */
-function loadBinding(name) {
-	try {
-		module.paths = require.main.paths.concat(module.paths);
-		slf4n.factory = require(name);
-	} catch(e) {
-		console.log(module);
-		console.error("SLF4N: Failed to load binding \"" + name + "\":");
-		console.trace(e);
-		console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
-		console.error("SLF4N: See https://github.com/fabianm/slf4n for further details.");
-		slf4n.factory = new slf4n.LoggerFactory();
-	}
-}
- 
-/*
- * Initialise this simple logging facade.
- */
-function initialise() {
-	if (process.env.hasOwnProperty("SLF4N_BINDING")) {
-		loadBinding(process.env["SLF4N_BINDING"]);
-		return;
-	}
-	
-	fs = fs || require("fs");
-	path = path || require("path");
-	
-	var configuration = findConfiguration(require.main);
-	if (configuration != null) {
-		if (configuration.hasOwnProperty("slf4n-binding")) {
-			loadBinding(configuration["slf4n-binding"]);
-			return;
+slf4n.resolveForNode = function() {
+	var fs = require('fs'), path = require('path'), configuration = {};
+	module.paths = require.main.paths.concat(module.paths);
+	function getBinding(name) { 
+		try {
+			return require(name);
+		} catch (e) {
+			throw new Error('Failed to load binding "' + name + '" (' + e.message + ')');
 		}
 	}
- 
-	console.error("SLF4N: Failed to determine binding.");
-	console.error("SLF4N: Defaulting to no-operation (NOP) logger implementation.");
-	console.error("SLF4N: See https://github.com/fabianm/slf4n for further details.");
+	/* 
+ 	 * From node-pkginfo
+ 	 * https://github.com/indexzero/node-pkginfo
+	 * Licensed under MIT.
+ 	 */
+	function getConfiguration(module, dir) {
+		dir = dir || path.dirname(module.filename);
+		var files = fs.readdirSync(dir);
+		if (~files.indexOf('package.json')) 
+			return require(path.join(dir, 'package.json'));
+		if (dir === '/' || !dir || dir === '.')
+			return null;  
+		return getConfiguration(module, path.dirname(dir));
+	}
+	
+	if (process.env.hasOwnProperty("SLF4N_BINDING"))
+		return getBinding(process.env["SLF4N_BINDING"]);
+	configuration = getConfiguration(require.main) || configuration;
+	if (configuration.hasOwnProperty("slf4n-binding"))
+		return getBinding(configuration["slf4n-binding"]);
+	throw new Error('Failed to determine binding (No configuration found)');
+};
+
+/*
+ * Return a {@link slf4n.Logger} implementation for the given module using the 
+ *	user-defined {@link slf4n.LoggerFactory} instance.
+ *
+ * @param module The module to get the {@link slf4n.Logger} implementation for.
+ */
+slf4n.get = (function() {
 	slf4n.factory = new slf4n.LoggerFactory();
-}
+	
+	console = console || {};
+	console.trace = console.trace || function() {};
+	console.error = console.error || function() {};
+	
+	var strategy = null;
+	if (typeof module !== 'undefined' && module.exports)
+		strategy = slf4n.resolveForNode;
+	
+	try {
+		slf4n.factory = strategy();
+	} catch(e) {
+		console.error('SLF4N: ' + (!strategy ? 'No LoggerFactory resolving strategy found for current platform' : e.message) + '.');
+		console.error('SLF4N: Defaulting to no-operation (NOP) logger implementation.');
+		console.error('SLF4N: See https://github.com/fabianm/slf4n for further details.');
+	}
+	return function(module) {
+		return slf4n.factory.getLogger(module);
+	};
+})();
+
+module = module || {};
 module.exports = slf4n;
