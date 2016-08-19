@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outDir": "build/",
+    "sourceMap": true
+  },
+  "files": [
+    "src/slf4n.ts",
+    "typings/index.d.ts"
+  ]
+}

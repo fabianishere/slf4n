@@ -1,20 +1,20 @@
 {
 	"name": "slf4n",
 	"description": "Simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.",
-	"version": "0.1.2",
-	"author": "Fabian M. <mail.fabianm@gmail.com>",
-	"homepage": "https://github.com/fabianm/slf4n",
-	"main": "lib/slf4n",
-	"bugs": "https://github.com/fabianm/slf4n/issues",
+	"version": "0.2.0",
+	"author": "Fabian Mastenbroek <mail.fabianm@gmail.com>",
+	"homepage": "https://github.com/fabianishere/slf4n",
+	"main": "build/slf4n",
+	"bugs": "https://github.com/fabianishere/slf4n/issues",
 	"dependencies": {},
 	"maintainers": [{
-		"name": "Fabian M.",
+		"name": "Fabian Mastenbroek",
 		"email": "mail.fabianm@gmail.com",
-		"web": "https://github.com/fabianm"
+		"web": "https://github.com/fabianishere"
 	}],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/fabianm/slf4n.git"
+		"url": "https://github.com/fabianishere/slf4n.git"
 	},
 	"keywords": [
 		"logging",
@@ -26,6 +26,6 @@
 	],
 	"licenses": [{ 
 		"type": "MIT",
-		"url": "https://github.com/fabianm/slf4n/blob/master/LICENSE"
+		"url": "https://github.com/fabianishere/slf4n/blob/master/slf4n/LICENSE.txt"
 	}]
 }
