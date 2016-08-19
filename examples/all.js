@@ -1,7 +1,7 @@
 /*
  * All logging levels.
  */
-var logger = require("slf4n").get(module);
+var logger = require('slf4n').get(module);
 
 if (logger.isTraceEnabled())
 	logger.trace("The TRACE level is enabled");

@@ -1,6 +1,6 @@
 /*
  * Print the string "Hello World" using the given binding.
  */
-var logger = require("slf4n").get(module);
+var logger = require('slf4n').get(module);
 
-logger.info("Hello World");
+logger.info('Hello World');
