@@ -164,7 +164,7 @@ Logger.prototype.isWarnEnabled = function() {
 /*
  * Infer the caller's module and method name.
  * 
- * @return The found stackframr that contains the module and method name.
+ * @return The found stack frame that contains the module and method name.
  */
 function inferCaller(stack) {
 	for (var index = stack.length; index > 0; index--)
