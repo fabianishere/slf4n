@@ -53,7 +53,7 @@ export namespace node {
 		 */
 		private byName(name: string): slf4n.LoggerFactory | Error {
 			try {
-				return require.main.require(name);
+				return require.main.require(name).default;
 			} catch (e) {
 				return new Error('Failed to load binding "' + name + '" (' + e.message + ')');
 			}
