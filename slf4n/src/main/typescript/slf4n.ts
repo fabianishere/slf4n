@@ -21,14 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import * as fs from 'fs';
-import * as path from 'path';
 
 /**
  * Simple logging facade for NodeJS allowing the end user to choose the desired
  *	logging framework at deployment time.
  */
-export namespace slf4n {
+namespace slf4n {
 	/**
 	 * The {@link slf4n.Logger} interface is a logging interface which should be
 	 *  provided by a concrete logging implementation.
@@ -187,7 +185,7 @@ export namespace slf4n {
 		private static logger = new NOPLogger();
 
 		/** @inheritDoc */
-		get(_: any): Logger { return NOPLoggerFactory.logger; }
+		get(_: NodeModule): Logger { return NOPLoggerFactory.logger; }
 	}
 
 	/**
@@ -196,62 +194,13 @@ export namespace slf4n {
 	 *
 	 * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
 	 */
-	interface LoggerFactoryResolver {
+	export interface LoggerFactoryResolver {
 		/**
 		 * Resolve the {@link slf4n.LoggerFactory} for this platform.
 		 *
 		 * @return The factory or an error when the resolving failed.
 		 */
 		resolve(): LoggerFactory | Error;
-	}
-
-	/**
-	 * Default {@link slf4n.LoggerFactoryResolver} for the node platform.
-	 *
-	 * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
-	 */
-	class DefaultLoggerFactoryResolver implements LoggerFactoryResolver {
-		/** @inheritDoc */
-		resolve(): LoggerFactory | Error {
-			function getBinding(name: string) {
-				try {
-					return require.main.require(name);
-				} catch (e) {
-					return new Error('Failed to load binding "' + name + '" (' + e.message + ')');
-				}
-			}
-			/*
-			 * From node-pkginfo
-			 * https://github.com/indexzero/node-pkginfo
-			 * Licensed under MIT.
-			 */
-			function getConfiguration(module: NodeModule, dir?: string): any {
-				dir = dir || path.dirname(module.filename);
-				var files = fs.readdirSync(dir);
-				if (~files.indexOf('package.json'))
-					return require(path.join(dir, 'package.json'));
-				if (dir === '/' || !dir || dir === '.')
-					return null;
-				return getConfiguration(module, path.dirname(dir));
-			}
-
-			if (process.env['SLF4N_BINDING'])
-				return getBinding(process.env['SLF4N_BINDING']);
-			const configuration = getConfiguration(require.main) || {};
-			if (configuration['slf4n-binding'])
-				return getBinding(configuration['slf4n-binding']);
-			return new Error('Failed to determine binding (No configuration found)');
-		}
-	}
-
-	/**
-	 * Return a {@link slf4n.Logger} implementation for the given module using the
-	 *	user-defined {@link slf4n.LoggerFactory} instance.
-	 *
-	 * @param module The {@link NodeModule} to get the {@link slf4n.Logger} implementation for.
-	 */
-	export function get(module: NodeModule) {
-		return factory.get(module);
 	}
 
 	/**
@@ -268,27 +217,34 @@ export namespace slf4n {
 	}
 
 	/**
-	 * The global {@link slf4n.LoggerFactory} instance slf4n uses.
+	 * The default {@link slf4n.LoggerFactory} instance slf4n uses.
 	 */
-	let factory: LoggerFactory = new NOPLoggerFactory();
+	let defaultFactory: LoggerFactory = new NOPLoggerFactory();
 
 	/**
-	 * Initialize slf4n and resolve a {@link slf4n.LoggerFactory}.
+	 * Initialize slf4n and resolve a {@link slf4n.LoggerFactory} using the
+	 * 	given {@link slf4n.LoggerFactoryResolver}.
+	 *
+	 * @param resolver The {@link slf4n.LoggerFactoryResolver} to resolve a {@link slf4n.LoggerFactory} for the
+	 * 	platform slf4n is running on.
+	 * @param platform The name of the platform slf4n is running on.
+	 * @param error The function to call when an error occurs. For example, <code>console.error</code> can be passed
+	 * 	as argument and will be used to log an error in case one occurs.
+	 * @return The {@link slf4n.LoggerFactory} resolved, or {@link slf4n.NOPLoggerFactory} in case the resolving failed.
 	 */
-	function init() {
-		const resolver = new DefaultLoggerFactoryResolver();
+	export function init(resolver: LoggerFactoryResolver, platform: string, error: (msg: string) => void): LoggerFactory {
 		const result = resolver.resolve();
 
 		if (result instanceof Error) {
-			console.error('SLF4N: ' + (!resolver ? 'No LoggerFactoryResolver found for current platform' : result.message) + '.');
-			console.error('SLF4N: Defaulting to no-operation (NOP) logger implementation.');
-			console.error('SLF4N: See https://github.com/fabianishere/slf4n for further details.');
+			error(`SLF4N: ${result.message}.`);
+			error('SLF4N: Defaulting to no-operation (NOP) logger implementation.');
+			error('SLF4N: See https://github.com/fabianishere/slf4n for further details.');
+
+			return defaultFactory;
 		} else {
-			factory = result;
+			return result;
 		}
 	}
-
-	init();
 }
 
 export default slf4n;
