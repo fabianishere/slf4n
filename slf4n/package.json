@@ -9,7 +9,8 @@
   "dependencies": {},
   "devDependencies": {
     "ava": "^0.16.0",
-    "typescript": "^1.8.10"
+    "typescript": "^1.8.10",
+    "typings": "^1.3.2"
   },
   "maintainers": [
     {
