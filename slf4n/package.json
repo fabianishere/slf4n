@@ -34,7 +34,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "prepublish": "tsc",
+    "prepublish": "typings install && tsc",
     "pretest": "typings install && tsc",
     "test": "ava build/test/typescript/*.test.js"
   }
