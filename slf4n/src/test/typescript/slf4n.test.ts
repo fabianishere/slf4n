@@ -22,7 +22,8 @@
  * THE SOFTWARE.
  */
 import test from 'ava';
-import slf4n from '../../main/typescript/slf4n';
+import slf4n from '../../main/typescript/node';
+import { TestLogger } from './logger';
 
 test('Whether slf4n will fall back to NOPLogger when a binding cannot be found.', t => {
 	const logger = slf4n.get(null);
@@ -51,4 +52,11 @@ test('Whether slf4n.format functions correctly.', t => {
 	t.is(slf4n.format('{0} {1}', 1, 2), '1 2');
 	t.is(slf4n.format('{1} {2}', 1, 2), '2 {2}');
 	t.is(slf4n.format('{1} {0}', 1, 2), '2 1');
+});
+
+test('Whether environmental variables work when determining a binding.', t => {
+	process.env['SLF4N_BINDING'] = '../../../build/test/typescript/logger';
+	const factory = slf4n.init(new slf4n.NodeLoggerFactoryResolver(), "test", (_) => null);
+	const logger = <TestLogger> factory.get(module);
+	t.is(logger.name(), 'test');
 });

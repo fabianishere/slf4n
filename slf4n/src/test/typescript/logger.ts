@@ -22,3 +22,47 @@
  * THE SOFTWARE.
  */
 import slf4n from '../../main/typescript/slf4n';
+
+export class TestLogger implements slf4n.Logger {
+	/** @inheritDoc */
+	debug(msg: string): void { }
+
+	/** @inheritDoc */
+	isDebugEnabled(): boolean { return false; }
+
+	/** @inheritDoc */
+	error(msg: string): void { }
+
+	/** @inheritDoc */
+	isErrorEnabled(): boolean { return false; }
+
+	/** @inheritDoc */
+	info(msg: string): void { }
+
+	/** @inheritDoc */
+	isInfoEnabled(): boolean { return false; }
+
+	/** @inheritDoc */
+	trace(msg: string): void { }
+
+	/** @inheritDoc */
+	isTraceEnabled(): boolean { return false; }
+
+	/** @inheritDoc */
+	warn(msg: string): void { }
+
+	/** @inheritDoc */
+	isWarnEnabled(): boolean { return false; }
+
+	/** @inheritDoc */
+	name(): string { return "test"; }
+}
+
+export class TestLoggerFactory implements slf4n.LoggerFactory {
+	private static logger = new TestLogger();
+
+	/** @inheritDoc */
+	get(_: NodeModule): slf4n.Logger { return TestLoggerFactory.logger; }
+}
+
+export default new TestLoggerFactory();
