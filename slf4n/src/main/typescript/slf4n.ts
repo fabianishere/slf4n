@@ -244,7 +244,31 @@ export namespace slf4n {
         }
     }
 
-    /**
+	/**
+	 * Return a {@link slf4n.Logger} implementation for the given module using the
+	 *	user-defined {@link slf4n.LoggerFactory} instance.
+	 *
+	 * @param module The {@link NodeModule} to get the {@link slf4n.Logger} implementation for.
+	 */
+	export function get(module: NodeModule) {
+		return factory.get(module);
+	}
+
+	/**
+	 * Format the given message with the given arguments.
+	 *
+	 * @param message The message to format.
+	 * @param args The arguments.
+	 * @return The formatted message.
+	 */
+	export function format(message: string, ...args: any[]) {
+		return message.replace(/{(\d+)}/g, function(match, number) {
+			return typeof args[number] != 'undefined' ? args[number] : match;
+		});
+	}
+
+
+	/**
      * The global {@link slf4n.LoggerFactory} instance slf4n uses.
      */
     let factory: LoggerFactory = new NOPLoggerFactory();
@@ -265,17 +289,7 @@ export namespace slf4n {
         }
     }
 
-    /**
-     * Return a {@link slf4n.Logger} implementation for the given module using the
-     *	user-defined {@link slf4n.LoggerFactory} instance.
-     *
-     * @param module The {@link NodeModule} to get the {@link slf4n.Logger} implementation for.
-     */
-    export function get(module: NodeModule) {
-        return factory.get(module);
-    }
-
     init();
 }
 
-module.exports = slf4n;
+export default slf4n;

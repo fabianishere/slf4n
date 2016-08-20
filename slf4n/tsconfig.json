@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+	"target": "es2015",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "outDir": "build/",
     "sourceMap": true
   },
-  "files": [
-    "src/slf4n.ts",
+  "include": [
+    "src/*/*.ts",
     "typings/index.d.ts"
   ]
 }

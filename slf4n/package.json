@@ -1,31 +1,39 @@
 {
-	"name": "slf4n",
-	"description": "Simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.",
-	"version": "0.2.0",
-	"author": "Fabian Mastenbroek <mail.fabianm@gmail.com>",
-	"homepage": "https://github.com/fabianishere/slf4n",
-	"main": "build/slf4n",
-	"bugs": "https://github.com/fabianishere/slf4n/issues",
-	"dependencies": {},
-	"maintainers": [{
-		"name": "Fabian Mastenbroek",
-		"email": "mail.fabianm@gmail.com",
-		"web": "https://github.com/fabianishere"
-	}],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/fabianishere/slf4n.git"
-	},
-	"keywords": [
-		"logging",
-		"sysadmin",
-		"tools",
-		"logger",
-		"slf4n",
-		"slf4j"
-	],
-	"licenses": [{ 
-		"type": "MIT",
-		"url": "https://github.com/fabianishere/slf4n/blob/master/slf4n/LICENSE.txt"
-	}]
+  "name": "slf4n",
+  "description": "Simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.",
+  "version": "0.2.0",
+  "author": "Fabian Mastenbroek <mail.fabianm@gmail.com>",
+  "homepage": "https://github.com/fabianishere/slf4n",
+  "main": "build/main/typescript/slf4n",
+  "bugs": "https://github.com/fabianishere/slf4n/issues",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "typescript": "^1.8.10"
+  },
+  "maintainers": [
+    {
+      "name": "Fabian Mastenbroek",
+      "email": "mail.fabianm@gmail.com",
+      "web": "https://github.com/fabianishere"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabianishere/slf4n.git"
+  },
+  "keywords": [
+    "logging",
+    "sysadmin",
+    "tools",
+    "logger",
+    "slf4n",
+    "slf4j",
+    "typescript",
+  ],
+  "license": "MIT",
+  "scripts": {
+    "prepublish": "tsc",
+    "test": "tsc && ava build/test/typescript/*.test.js"
+  }
 }
