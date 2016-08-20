@@ -12,7 +12,7 @@ logger.info("Hello World!");
 You can specify the binding by either:
 
 - Export `SLF4N_BINDING` with the name of the binding.
-- Adding a `slf4n-binding` field to your package.json with the name of the binding.
+- Adding a `slf4n` field to your package.json with the name of the binding.
 	
 ## Methods
 

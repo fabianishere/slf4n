@@ -40,8 +40,12 @@ export namespace node {
 			if (process.env['SLF4N_BINDING'])
 				return this.byName(process.env['SLF4N_BINDING']);
 			const configuration = this.getConfiguration(require.main) || {};
-			if (configuration.slf4n && configuration.slf4n.binding)
-				return this.byName(configuration.slf4n.binding);
+			if (configuration.slf4n) {
+				if (configuration.slf4n.binding)
+					return this.byName(configuration.slf4n.binding);
+				else if (configuration.slf4n instanceof String)
+					return this.byName(configuration.slf4n);
+			}
 			return new Error('Failed to determine binding (No configuration found)');
 		}
 
