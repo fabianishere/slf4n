@@ -7,4 +7,4 @@ node_js:
   - "iojs"
 env:
   - TEST_DIR=slf4n
-script: cd $TEST_DIR && npm install && typings install && npm test
+script: cd $TEST_DIR && npm install && npm test
