@@ -28,13 +28,13 @@ import * as path from 'path';
  * Simple logging facade for NodeJS allowing the end user to choose the desired
  *	logging framework at deployment time.
  */
-namespace node {
+export namespace node {
 	/**
 	 * Default {@link slf4n.LoggerFactoryResolver} for the node platform.
 	 *
 	 * @author Fabian Mastenbroek <mail.fabianm@gmail.com>
 	 */
-	export class LoggerFactoryResolver implements slf4n.LoggerFactoryResolver {
+	export class NodeLoggerFactoryResolver implements slf4n.LoggerFactoryResolver {
 		/** @inheritDoc */
 		resolve(): slf4n.LoggerFactory | Error {
 			if (process.env['SLF4N_BINDING'])
@@ -89,4 +89,4 @@ namespace node {
 	}
 }
 
-export default Object.assign(slf4n.init(new node.LoggerFactoryResolver(), "node", console.error), slf4n);
+export default Object.assign(slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error), slf4n, node);

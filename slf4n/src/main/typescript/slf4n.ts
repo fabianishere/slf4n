@@ -219,7 +219,7 @@ namespace slf4n {
 	/**
 	 * The default {@link slf4n.LoggerFactory} instance slf4n uses.
 	 */
-	let defaultFactory: LoggerFactory = new NOPLoggerFactory();
+	const defaultFactory: LoggerFactory = new NOPLoggerFactory();
 
 	/**
 	 * Initialize slf4n and resolve a {@link slf4n.LoggerFactory} using the
@@ -235,15 +235,15 @@ namespace slf4n {
 	export function init(resolver: LoggerFactoryResolver, platform: string, error: (msg: string) => void): LoggerFactory {
 		const result = resolver.resolve();
 
-		if (result instanceof Error) {
-			error(`SLF4N: ${result.message}.`);
-			error('SLF4N: Defaulting to no-operation (NOP) logger implementation.');
-			error('SLF4N: See https://github.com/fabianishere/slf4n for further details.');
-
-			return defaultFactory;
-		} else {
+		if (!(result instanceof Error)) {
 			return result;
 		}
+
+		const ex = <Error> result;
+		error(`SLF4N: ${ex.message}.`);
+		error('SLF4N: Defaulting to no-operation (NOP) logger implementation.');
+		error('SLF4N: See https://github.com/fabianishere/slf4n for further details.');
+		return defaultFactory;
 	}
 }
 
