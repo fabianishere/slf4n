@@ -29,7 +29,7 @@
     "logger",
     "slf4n",
     "slf4j",
-    "typescript",
+    "typescript"
   ],
   "license": "MIT",
   "scripts": {
