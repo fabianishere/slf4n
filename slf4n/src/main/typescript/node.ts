@@ -23,6 +23,7 @@
  */
 import slf4n from './slf4n';
 import * as path from 'path';
+import * as util from 'util';
 
 /**
  * Simple logging facade for NodeJS allowing the end user to choose the desired
@@ -93,4 +94,8 @@ export namespace node {
 	}
 }
 
-export default Object.assign(slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error), slf4n, node);
+
+/** {@link Object#assign} polyfill. */
+const assign = Object.assign || (<any> util)._extend;
+
+export default assign(slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error), slf4n, node);
