@@ -8,9 +8,10 @@
   "bugs": "https://github.com/fabianishere/slf4n/issues",
   "dependencies": {},
   "devDependencies": {
-    "ava": "^0.16.0",
     "typescript": "^1.8.10",
-    "typings": "^1.3.2"
+    "typings": "^1.3.2",
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
   },
   "maintainers": [
     {
@@ -36,6 +37,6 @@
   "scripts": {
     "prepublish": "typings install && tsc",
     "pretest": "tsc",
-    "test": "ava build/test/typescript/*.test.js"
+    "test": "mocha build/test/typescript/*.test.js"
   }
 }

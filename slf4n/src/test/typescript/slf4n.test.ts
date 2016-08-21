@@ -21,42 +21,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import test from 'ava';
-import slf4n from '../../main/typescript/node';
+import slf4n from '../../main/typescript/slf4n';
+import node from '../../main/typescript/node';
 import { TestLogger } from './logger';
+import { expect }  from 'chai';
 
-test('Whether slf4n will fall back to NOPLogger when a binding cannot be found.', t => {
-	const logger = slf4n.get(null);
-	t.true(logger instanceof slf4n.NOPLogger, 'slf4n does not fall back to NOPLogger when a binding is not found.');
+describe('slf4n-core', () => {
+	describe('NOPLoggerFactory', () => {
+		it('should always return an instance of NOPLogger.', () => {
+			const factory = new slf4n.NOPLoggerFactory();
+			for (let i = 0; i < 1000; i++) {
+				expect(factory.get(null)).to.be.instanceof(slf4n.NOPLogger,
+					'All loggers created by NOPLoggerFactory must be an instance of NOPLogger.');
+			}
+		});
+	});
+
+	describe('NOPLogger.', () => {
+		it('should return correct values when directly instantiated.', () => {
+			const logger = new slf4n.NOPLogger();
+			expect(logger.isDebugEnabled()).to.be.false;
+			expect(logger.isInfoEnabled()).to.be.false;
+			expect(logger.isWarnEnabled()).to.be.false;
+			expect(logger.isErrorEnabled()).to.be.false;
+			expect(logger.isTraceEnabled()).to.be.false;
+			expect(logger.name()).to.equal('nop', 'Name should be equal to "nop".');
+		});
+
+		it('should return correct values when instantiated by NOPLoggerFactory.', () => {
+			const factory = new slf4n.NOPLoggerFactory();
+			const logger = factory.get(null);
+			expect(logger.isDebugEnabled()).to.be.false;
+			expect(logger.isInfoEnabled()).to.be.false;
+			expect(logger.isWarnEnabled()).to.be.false;
+			expect(logger.isErrorEnabled()).to.be.false;
+			expect(logger.isTraceEnabled()).to.be.false;
+			expect(logger.name()).to.equal('nop', 'Name should be equal to "nop".');
+		});
+	});
+
+	describe('format', () => {
+		it('should process arguments correctly.', () => {
+			expect(slf4n.format('{0} {0}')).to.equal('{0} {0}');
+			expect(slf4n.format('{0} {0}', 1, 2)).to.equal('1 1');
+			expect(slf4n.format('{0} {1}', 1, 2)).to.equal('1 2');
+			expect(slf4n.format('{1} {2}', 1, 2)).to.equal('2 {2}');
+			expect(slf4n.format('{1} {0}', 1, 2)).to.equal('2 1');
+		});
+	});
 });
 
-test('Whether NOPLogger returns the correct values.', t => {
-	const logger = slf4n.get(null);
-	t.false(logger.isDebugEnabled(), 'Debug messages should be disabled.');
-	t.false(logger.isInfoEnabled(), 'Info messages should be disabled.');
-	t.false(logger.isWarnEnabled(), 'Warning messages should be disabled.');
-	t.false(logger.isErrorEnabled(), 'Error messages should be disabled.');
-	t.false(logger.isTraceEnabled(), 'Trace messages should be disabled.');
-	t.is(logger.name(), 'nop', 'Name should be equal to "nop".');
-});
+describe('slf4n-node', () => {
+	it('should fall back to NOPLogger when a binding cannot be found.', () => {
+		const logger = node.get(null);
+		expect(logger)
+			.instanceof(slf4n.NOPLogger, 'slf4n does not fall back to NOPLogger when a binding is not found.');
+	});
 
-test('Whether NOPLoggerFactory always returns a NOPLogger.', t => {
-	const factory = new slf4n.NOPLoggerFactory();
-	for (let i = 0; i < 1000; i++)
-		t.true(factory.get(null) instanceof slf4n.NOPLogger);
-});
-
-test('Whether slf4n.format functions correctly.', t => {
-	t.is(slf4n.format('{0} {0}'), '{0} {0}');
-	t.is(slf4n.format('{0} {0}', 1, 2), '1 1');
-	t.is(slf4n.format('{0} {1}', 1, 2), '1 2');
-	t.is(slf4n.format('{1} {2}', 1, 2), '2 {2}');
-	t.is(slf4n.format('{1} {0}', 1, 2), '2 1');
-});
-
-test('Whether environmental variables work when determining a binding.', t => {
-	process.env['SLF4N_BINDING'] = '../../../build/test/typescript/logger';
-	const factory = slf4n.init(new slf4n.NodeLoggerFactoryResolver(), "test", (_: string): void => null);
-	const logger = <TestLogger> factory.get(module);
-	t.is(logger.name(), 'test');
+	it('should select the correct binding when an environmental variable is set.', () => {
+		process.env['SLF4N_BINDING'] = '../../../build/test/typescript/logger';
+		const factory = slf4n.init(new node.NodeLoggerFactoryResolver(), "test", (_: string): void => null);
+		const logger = <TestLogger> factory.get(module);
+		expect(logger.name()).to.equal('test');
+	});
 });
