@@ -96,6 +96,6 @@ export namespace node {
 
 
 /** {@link Object#assign} polyfill. */
-const assign = Object.assign || (<any> util)._extend;
+const assign = (<any> Object).assign || (<any> util)._extend;
 
 export default assign(slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error), slf4n, node);
