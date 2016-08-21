@@ -56,7 +56,7 @@ test('Whether slf4n.format functions correctly.', t => {
 
 test('Whether environmental variables work when determining a binding.', t => {
 	process.env['SLF4N_BINDING'] = '../../../build/test/typescript/logger';
-	const factory = slf4n.init(new slf4n.NodeLoggerFactoryResolver(), "test", (_) => null);
+	const factory = slf4n.init(new slf4n.NodeLoggerFactoryResolver(), "test", (_: string): void => null);
 	const logger = <TestLogger> factory.get(module);
 	t.is(logger.name(), 'test');
 });
