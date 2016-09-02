@@ -10,6 +10,9 @@ const logger = slf4n.get(module);
 logger.info("Hello World!");
 ```
 
+## Build Status
+[![Build Status](https://travis-ci.org/fabianishere/slf4n.svg?branch=develop)](https://travis-ci.org/fabianishere/slf4n)
+
 ## Configuration
 You can specify the binding by either:
 
