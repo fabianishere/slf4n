@@ -1,10 +1,11 @@
 language: node_js
 node_js:
-  - "6"
-  - "6.1"
-  - "5.11"
-  - "0.5"
-  - "iojs"
+  - 'stable'
+  - 'iojs'
+  - '6'
+  - '5'
+  - '4'
+  - '0.10'
 env:
   - TEST_DIR=slf4n
 script: cd $TEST_DIR && npm install && npm test
