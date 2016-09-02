@@ -39,13 +39,13 @@ export namespace node {
 		/** @inheritDoc */
 		resolve(): slf4n.LoggerFactory | Error {
 			if (process.env['SLF4N_BINDING'])
-				return this.byName(process.env['SLF4N_BINDING']);
-			const configuration = this.getConfiguration(require.main) || {};
+				return NodeLoggerFactoryResolver.byName(process.env['SLF4N_BINDING']);
+			const configuration = NodeLoggerFactoryResolver.getConfiguration(require.main) || {};
 			if (configuration.slf4n) {
 				if (configuration.slf4n.binding)
-					return this.byName(configuration.slf4n.binding);
+					return NodeLoggerFactoryResolver.byName(configuration.slf4n.binding);
 				else if (configuration.slf4n instanceof String)
-					return this.byName(configuration.slf4n);
+					return NodeLoggerFactoryResolver.byName(configuration.slf4n);
 			}
 			return new Error('Failed to determine binding (No configuration found)');
 		}
@@ -56,7 +56,7 @@ export namespace node {
 		 * @param name The name of the module.
 		 * @returns The {@link slf4n.LoggerFactory} or an error.
 		 */
-		private byName(name: string): slf4n.LoggerFactory | Error {
+		private static byName(name: string): slf4n.LoggerFactory | Error {
 			try {
 				return require.main.require(name).default;
 			} catch (e) {
@@ -70,7 +70,7 @@ export namespace node {
 		 * @param module The module to get the package.json configuration of.
 		 * @param dir The directory to search in (optional).
 		 */
-		private getConfiguration(module: NodeModule, dir?: string): any {
+		private static getConfiguration(module: NodeModule, dir?: string): any {
 			/**
 			 * From node-pkginfo
 			 * https://github.com/indexzero/node-pkginfo
@@ -89,7 +89,7 @@ export namespace node {
 				if (contents) return contents;
 			} catch (_) {
 			}
-			return this.getConfiguration(module, path.dirname(dir));
+			return NodeLoggerFactoryResolver.getConfiguration(module, path.dirname(dir));
 		}
 	}
 }
