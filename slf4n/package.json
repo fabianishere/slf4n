@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "author": "Fabian Mastenbroek <mail.fabianm@gmail.com>",
   "homepage": "https://github.com/fabianishere/slf4n",
-  "main": "build/main/typescript/slf4n",
+  "main": "build/main/typescript/node.js",
   "bugs": "https://github.com/fabianishere/slf4n/issues",
   "dependencies": {},
   "devDependencies": {
