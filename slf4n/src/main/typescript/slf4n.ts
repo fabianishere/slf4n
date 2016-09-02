@@ -38,8 +38,9 @@ namespace slf4n {
 		 * Log a message at the DEBUG level.
 		 *
 		 * @param msg The message to be logged at the DEBUG level.
+		 * @param args The arguments of the formatted message.
 		 */
-		debug(msg: string): void;
+		debug(msg: any, ...args: any[]): void;
 
 		/**
 		 * Determine whether the DEBUG level is enabled or not.
@@ -52,9 +53,10 @@ namespace slf4n {
 		/**
 		 * Log a message at the ERROR level.
 		 *
-		 * @param msg The message to be logged at the DEBUG level.
+		 * @param msg The message to be logged at the ERROR level.
+		 * @param args The arguments of the formatted message.
 		 */
-		error(msg: string): void;
+		error(msg: any, ...args: any[]): void;
 
 		/**
 		 * Determine whether the ERROR level is enabled or not.
@@ -68,8 +70,9 @@ namespace slf4n {
 		 * Log a message at the INFO level.
 		 *
 		 * @param msg The message to be logged at the INFO level.
+		 * @param args The arguments of the formatted message.
 		 */
-		info(msg: string): void;
+		info(msg: any, ...args: any[]): void;
 
 		/**
 		 * Determine whether the INFO level is enabled or not.
@@ -83,8 +86,9 @@ namespace slf4n {
 		 * Log a message at the TRACE level.
 		 *
 		 * @param msg The message to be logged at the TRACE level.
+		 * @param args The arguments of the formatted message.
 		 */
-		trace(msg: string): void;
+		trace(msg: any, ...args: any[]): void;
 
 		/**
 		 * Determine whether the TRACE level is enabled or not.
@@ -98,8 +102,9 @@ namespace slf4n {
 		 * Log a message at the WARN level.
 		 *
 		 * @param msg The message to be logged at the WARN level.
+		 * @param args The arguments of the formatted message.
 		 */
-		warn(msg: string): void;
+		warn(msg: any, ...args: any[]): void;
 
 		/**
 		 * Determine whether the WARN level is enabled or not.
