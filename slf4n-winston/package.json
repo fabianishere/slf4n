@@ -7,7 +7,7 @@
 	"main": "build/main/typescript/slf4n-winston",
 	"bugs": "https://github.com/fabianishere/slf4n/issues",
 	"dependencies": {
-		"slf4n": "^0.1.1",
+		"slf4n": "^0.2.0",
 		"winston": "^2.2.0"
 	},
 	"devDependencies": {
