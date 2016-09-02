@@ -1,10 +1,12 @@
 # SLF4N
-A simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.
+SLF4N is a simple logging facade for NodeJS allowing the end user to choose the desired logging framework at deployment time.
 Thanks for visiting!
 
 Using SLF4N is really simple as shown below:
-```js	
-var logger = require("slf4n").get(module);
+```js
+import slf4n from 'slf4n';
+
+const logger = slf4n.get(module);
 logger.info("Hello World!");
 ```
 
