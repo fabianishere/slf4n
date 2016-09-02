@@ -3,8 +3,10 @@ SLF4N is a simple logging facade for NodeJS allowing the end user to choose the 
 Thanks for visiting!
 
 Using SLF4N is really simple as shown below:
-```js	
-var logger = require("slf4n").get(module);
+```js
+import slf4n from 'slf4n';
+
+const logger = slf4n.get(module);
 logger.info("Hello World!");
 ```
 
@@ -12,7 +14,7 @@ logger.info("Hello World!");
 You can specify the binding by either:
 
 - Export `SLF4N_BINDING` with the name of the binding.
-- Adding a `slf4n-binding` field to your package.json with the name of the binding.
+- Adding a `slf4n` field to your package.json with the name of the binding.
 	
 ## Methods
 
