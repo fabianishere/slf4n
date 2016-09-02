@@ -38,8 +38,13 @@ export namespace node {
 	export class NodeLoggerFactoryResolver implements slf4n.LoggerFactoryResolver {
 		/** @inheritDoc */
 		resolve(): slf4n.LoggerFactory | Error {
-			if (process.env['SLF4N_BINDING'])
+			const cache = (<any> process).slf4n;
+			if (cache)
+				// If a LoggerFactory has already been resolved, return that one.
+				return cache;
+			else if (process.env['SLF4N_BINDING'])
 				return NodeLoggerFactoryResolver.byName(process.env['SLF4N_BINDING']);
+
 			const configuration = NodeLoggerFactoryResolver.getConfiguration(require.main) || {};
 			if (configuration.slf4n) {
 				if (configuration.slf4n.binding)
@@ -58,7 +63,12 @@ export namespace node {
 		 */
 		private static byName(name: string): slf4n.LoggerFactory | Error {
 			try {
-				return require.main.require(name).default;
+				const res = require.main.require(name);
+				if (res && res.get)
+					return res;
+				else if (res && res.default && res.default.get)
+					return res.default;
+				throw new Error('Not a valid LoggerFactory');
 			} catch (e) {
 				return new Error('Failed to load binding "' + name + '" (' + e.message + ')');
 			}
@@ -98,4 +108,8 @@ export namespace node {
 /** {@link Object#assign} polyfill. */
 const assign = (<any> Object).assign || ((...xs: any[]) => xs.reduce((<any> util)._extend));
 
-export default assign(slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error), slf4n, node);
+export default assign(
+	((<any> process).slf4n = slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error) || {}),
+	slf4n,
+	node
+);
