@@ -80,6 +80,7 @@ describe('slf4n-node', () => {
 
 	it('should select the correct binding when an environmental variable is set.', () => {
 		process.env['SLF4N_BINDING'] = '../../../build/test/typescript/logger';
+		(<any> process).slf4n = null; // clear cache in order to resolve a new instance.
 		const factory = slf4n.init(new node.NodeLoggerFactoryResolver(), "test", (_: string): void => null);
 		const logger = <TestLogger> factory.get(module);
 		expect(logger.name()).to.equal('test');
