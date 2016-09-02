@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+	"target": "es5",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "declaration": true,
+    "outDir": "build/main/typescript",
+    "sourceMap": true
+  },
+  "include": [
+    "src/*/*.ts",
+    "typings/index.d.ts"
+  ],
+  "exclude": [
+    "build",
+    "node_modules"
+  ]
+}

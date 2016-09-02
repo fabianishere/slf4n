@@ -1,14 +1,18 @@
 {
 	"name": "slf4n-logging-js",
 	"description": "SLF4N binding for logging.js.",
-	"version": "0.1.4",
+	"version": "0.2.0",
 	"author": "Fabian Mastenbroek <mail.fabianm@gmail.com>",
 	"homepage": "https://github.com/fabianishere/slf4n",
-	"main": "lib/slf4n-logging",
+	"main": "build/main/typescript/slf4n-logging-js",
 	"bugs": "https://github.com/fabianishere/slf4n/issues",
 	"dependencies": {
-		"slf4n": "^0.1.1",
+		"slf4n": "^0.2.0",
 		"logging-js": "^2.1.1"
+	},
+	"devDependencies": {
+		"typescript": "^1.8.10",
+		"typings": "^1.3.2"
 	},
 	"maintainers": [{
 		"name": "Fabian Mastenbroek",
@@ -29,8 +33,9 @@
 		"logging.js",
 		"logging-js"
 	],
-	"licenses": [{ 
-		"type": "MIT",
-		"url": "https://github.com/fabianishere/slf4n/blob/master/LICENSE"
-	}]
+	"license": "MIT",
+	"scripts": {
+		"prepublish": "typings install && tsc"
+	},
+	"typings": "build/main/typescript/slf4n-logging-js.d.ts"
 }

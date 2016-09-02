@@ -163,7 +163,7 @@ Logger.prototype.isWarnEnabled = function() {
 
 /*
  * Infer the caller's module and method name.
- * 
+ *
  * @return The found stack frame that contains the module and method name.
  */
 function inferCaller(stack) {
@@ -177,6 +177,6 @@ function inferCaller(stack) {
  *
  * @param module The module to get the {@link slf4n.Logger} implementation for.
  */
-module.exports.getLogger = function(module) {
+module.exports.get = function(module) {
 	return new Logger(module);
 };
