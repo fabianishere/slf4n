@@ -24,23 +24,11 @@
 var slf4n = require("slf4n"), winston = require("winston");
 
 /*
- * Create a new {@link winston.Logger} instance.
- *
- * @return A new {@link winston.Logger} instance.
- */
-function getWinstonLogger() {
-	return new (winston.Logger)({
-		transports: [new (winston.transports.Console)()]
-	});
-}
-
-/*
  * Construct a new {@link Logger} instance.
  *
  * @param module The module to get the {@link slf4n.Logger} implementation for.
  */
 function Logger(module) {
-	this.logger = module.exports.getWinstonLogger();
 	return this;
 };
 
@@ -49,10 +37,10 @@ function Logger(module) {
  * 
  * @param message The message to log at the DEBUG level.
  */
-Logger.prototype.debug = function(message) {
+Logger.prototype.debug = function(message, ...args) {
 	if (!this.isDebugEnabled())
 		return;
-	this.logger.debug(slf4n.format(message, arguments));
+	winston.debug(slf4n.format(message, args));
 };
 
 /*
@@ -62,7 +50,7 @@ Logger.prototype.debug = function(message) {
  *	otherwise.
  */
 Logger.prototype.isDebugEnabled = function() { 
-	return this.logger.level <= winston.config.npm.levels.debug;
+	return winston.level <= winston.config.npm.levels.debug;
 };
 
 /*
@@ -70,10 +58,10 @@ Logger.prototype.isDebugEnabled = function() {
  * 
  * @param message The message to log at the ERROR level.
  */
-Logger.prototype.error = function(message) {
+Logger.prototype.error = function(message, ...args) {
 	if (!this.isErrorEnabled())
 		return;
-	this.logger.error(slf4n.format(message, arguments));
+	winston.error(slf4n.format(message, args));
 };
 
 /*
@@ -83,7 +71,7 @@ Logger.prototype.error = function(message) {
  *	otherwise.
  */
 Logger.prototype.isErrorEnabled = function() { 
-	return this.logger.level <= winston.config.npm.levels.error;
+	return winston.level <= winston.config.npm.levels.error;
 };
 
 /*
@@ -91,10 +79,10 @@ Logger.prototype.isErrorEnabled = function() {
  * 
  * @param message The message to log at the INFO level.
  */
-Logger.prototype.info = function(message) {
+Logger.prototype.info = function(message, ...args) {
 	if (!this.isInfoEnabled())
 		return;
-	this.logger.info(slf4n.format(message, arguments));
+	winston.info(slf4n.format(message, args));
 };
 
 /*
@@ -104,7 +92,7 @@ Logger.prototype.info = function(message) {
  *	otherwise.
  */
 Logger.prototype.isInfoEnabled = function() { 
-	return this.logger.level <= winston.config.npm.levels.info;
+	return winston.level <= winston.config.npm.levels.info;
 };
 
 /*
@@ -112,10 +100,10 @@ Logger.prototype.isInfoEnabled = function() {
  * 
  * @param message The message to log at the TRACE level.
  */
-Logger.prototype.trace = function(message) {
+Logger.prototype.trace = function(message, ...args) {
 	if (!this.isTraceEnabled())
 		return;
-	this.logger.silly(slf4n.format(message, arguments));
+	winston.silly(slf4n.format(message, args));
 };
 
 /*
@@ -125,7 +113,7 @@ Logger.prototype.trace = function(message) {
  *	otherwise.
  */
 Logger.prototype.isTraceEnabled = function() { 
-	return this.logger.level <= winston.config.npm.levels.silly;
+	return winston.level <= winston.config.npm.levels.silly;
 };
 
 /*
@@ -133,10 +121,10 @@ Logger.prototype.isTraceEnabled = function() {
  * 
  * @param message The message to log at the WARN level.
  */
-Logger.prototype.warn = function(message) {
+Logger.prototype.warn = function(message, ...args) {
 	if (!this.isWarnEnabled())
 		return;
-	this.logger.warn(slf4n.format(message, arguments));
+	winston.warn(slf4n.format(message, args));
 };
 
 /*
@@ -146,7 +134,7 @@ Logger.prototype.warn = function(message) {
  *	otherwise.
  */
 Logger.prototype.isWarnEnabled = function() { 
-	return this.logger.level <= winston.config.npm.levels.warn;
+	return winston.level <= winston.config.npm.levels.warn;
 };
 
 /* 
@@ -154,7 +142,6 @@ Logger.prototype.isWarnEnabled = function() {
  *
  * @param module The module to get the {@link slf4n.Logger} implementation for.
  */
-module.exports.getLogger = function(module) {
+module.exports.get = function(module) {
 	return new Logger(module);
 };
-module.exports.getWinstonLogger = getWinstonLogger;
