@@ -38,5 +38,6 @@
     "prepublish": "typings install && tsc",
     "pretest": "tsc",
     "test": "mocha build/test/typescript/*.test.js"
-  }
+  },
+  "typings": "build/main/typescript/slf4n.d.ts"
 }
