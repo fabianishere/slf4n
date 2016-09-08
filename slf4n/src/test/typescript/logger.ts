@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import slf4n from '../../main/typescript/slf4n';
+import slf4n from 'slf4n-api';
 
 export class TestLogger implements slf4n.Logger {
 	/** @inheritDoc */
