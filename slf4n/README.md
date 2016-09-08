@@ -10,6 +10,14 @@ const logger = slf4n.get(module);
 logger.info("Hello World!");
 ```
 
+In case you are not using ES6 modules yet:
+```js
+var logger = require('slf4n').default.get(module);
+
+logger.info("Hello World!");
+```
+
+
 ## Build Status
 [![Build Status](https://travis-ci.org/fabianishere/slf4n.svg?branch=develop)](https://travis-ci.org/fabianishere/slf4n)
 
