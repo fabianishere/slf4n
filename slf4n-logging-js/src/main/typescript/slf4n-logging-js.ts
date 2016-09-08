@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import slf4n from 'slf4n';
+import slf4n from 'slf4n-api';
 const logging = require('logging-js');
 
 /**

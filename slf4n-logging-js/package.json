@@ -7,7 +7,7 @@
 	"main": "build/main/typescript/slf4n-logging-js",
 	"bugs": "https://github.com/fabianishere/slf4n/issues",
 	"dependencies": {
-		"slf4n": "^0.2.0",
+		"slf4n-api": "^0.1.0",
 		"logging-js": "^2.1.1"
 	},
 	"devDependencies": {
