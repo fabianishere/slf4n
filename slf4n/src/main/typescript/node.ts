@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import slf4n from './slf4n';
+import slf4n from 'slf4n-api';
 import * as path from 'path';
 import * as util from 'util';
 
@@ -97,19 +97,13 @@ export namespace node {
 			try {
 				const contents = require(dir + '/package.json');
 				if (contents) return contents;
-			} catch (_) {
-			}
+			} catch (_) {}
 			return NodeLoggerFactoryResolver.getConfiguration(module, path.dirname(dir));
 		}
 	}
 }
 
+const proc = (<any> process);
+proc.slf4n = slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error) || {};
 
-/** {@link Object#assign} polyfill. */
-const assign = (<any> Object).assign || ((...xs: any[]) => xs.reduce((<any> util)._extend));
-
-export default assign(
-	((<any> process).slf4n = slf4n.init(new node.NodeLoggerFactoryResolver(), "node", console.error) || {}),
-	slf4n,
-	node
-);
+export default <slf4n.LoggerFactory> proc.slf4n;

@@ -6,7 +6,9 @@
   "homepage": "https://github.com/fabianishere/slf4n",
   "main": "build/main/typescript/node.js",
   "bugs": "https://github.com/fabianishere/slf4n/issues",
-  "dependencies": {},
+  "dependencies": {
+    "slf4n-api": "^0.1.0"
+  },
   "devDependencies": {
     "typescript": "^1.8.10",
     "typings": "^1.3.2",
