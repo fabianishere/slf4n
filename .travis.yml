@@ -8,4 +8,5 @@ node_js:
   - '0.10'
 env:
   - TEST_DIR=slf4n
+  - TEST_DIR=slf4n-api
 script: cd $TEST_DIR && npm install && npm test
